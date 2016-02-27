@@ -1,4 +1,4 @@
-package com.minitrello.minitrello;
+package models;
 
 
 
