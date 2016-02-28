@@ -80,6 +80,7 @@ public class ListCardActivity extends AppCompatActivity {
     private void  saveNewCard(){
         Storage.getInstance().saveCard(listCard, new Card(cardTitle.getText().toString()));
         listCard.saveCard(new Card(cardTitle.getText().toString()));
+        Log.i("storage", Storage.getInstance().loadListCard().size() + "");
 
     }
 
