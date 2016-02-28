@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MiniTrello.iml" filepath="$PROJECT_DIR$/MiniTrello.iml" />
       <module fileurl="file://$PROJECT_DIR$/MiniTrelloProject.iml" filepath="$PROJECT_DIR$/MiniTrelloProject.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

@@ -42,6 +42,7 @@ public class CreateMenu extends Activity{
             @Override
             public void onClick(View v) {
                 saveNewListCard();
+                
                 finish();
             }
         });
@@ -50,7 +51,7 @@ public class CreateMenu extends Activity{
     }
 
     private void saveNewListCard(){
-        Storage.getInstance().saveListCard(new ListCard(title.toString()));
+        Storage.getInstance().saveListCard(new ListCard(title.getText().toString()));
     }
 
 }

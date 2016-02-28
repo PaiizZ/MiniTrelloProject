@@ -14,14 +14,19 @@ import android.widget.ListView;
 
 import com.minitrello.minitrello.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import models.Card;
 import models.ListCard;
+import models.Storage;
+import views.ListCardAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
     private ListView listcardListView;
     private List<ListCard> listcards;
+    private ListCardAdapter listCardAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +36,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initComponent(){
+        listcards = new ArrayList<ListCard>();
+        listCardAdapter = new ListCardAdapter(this, R.layout.note_cell,listcards);
+        listcards.add(new ListCard("a"));
+        listcardListView = (ListView) findViewById(R.id.listcard_list_view);
+        listcardListView.setAdapter(listCardAdapter);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -70,5 +81,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        //listcards.clear();
+        for(ListCard lcard: Storage.getInstance().loadListCard()){
+            listcards.add(lcard);
+        }
+        listCardAdapter.notifyDataSetChanged();
     }
 }

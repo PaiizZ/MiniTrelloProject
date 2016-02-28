@@ -23,6 +23,7 @@ public class Storage {
 
     public void saveListCard(ListCard listCard){
         savedListCards.add(listCard);
+        //savedListCards.add(new ListCard("a"));
     }
 
     public List<ListCard> loadListCard(){
