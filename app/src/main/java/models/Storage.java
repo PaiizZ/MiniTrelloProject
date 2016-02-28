@@ -1,5 +1,7 @@
 package models;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +25,23 @@ public class Storage {
 
     public void saveListCard(ListCard listCard){
         savedListCards.add(listCard);
+    }
+
+    public void saveCard(ListCard listCard,Card card){
+        for(ListCard lc : savedListCards) {
+            if (lc.equals(listCard)) {
+                Log.i("ccc", "DDDDDDDDDDDDD");
+                lc.saveCard(card);
+                break;
+            }
+        }
+    }
+
+    public ListCard loadCard(ListCard listCard){
+        for(ListCard lc : savedListCards){
+            if(lc.equals(listCard))return lc;
+        }
+        return null;
     }
 
     public List<ListCard> loadListCard(){

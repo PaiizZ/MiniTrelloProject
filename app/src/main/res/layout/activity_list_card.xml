@@ -9,12 +9,27 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.minitrello.minitrello.activities.ListCardActivity">
 
+    <ListView
+        android:id="@+id/card_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/card_title"></ListView>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Create Card"
-        android:id="@+id/button"
+        android:id="@+id/create_card_btn"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="49dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/card_title"
+        android:hint="Input Card Title"
+        android:layout_above="@+id/create_card_btn"
+        android:layout_alignLeft="@+id/create_card_btn"
+        android:layout_alignStart="@+id/create_card_btn" />
 </RelativeLayout>

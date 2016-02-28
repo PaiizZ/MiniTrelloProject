@@ -20,7 +20,7 @@ import models.Storage;
 public class CreateMenu extends Activity{
 
     private Button confirmBtn;
-    private TextView title;
+    private TextView ListCardTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class CreateMenu extends Activity{
         int height = dm.heightPixels;
         getWindow().setLayout((int)(width*.8),(int)(height*.2));
 
-        confirmBtn = (Button)findViewById(R.id.confirm_btn);
+        confirmBtn = (Button)findViewById(R.id.confirm_listcard_btn);
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -46,11 +46,11 @@ public class CreateMenu extends Activity{
             }
         });
 
-        title = (TextView) findViewById(R.id.listcard_title);
+        ListCardTitle = (TextView) findViewById(R.id.listcard_title);
     }
 
     private void saveNewListCard(){
-        Storage.getInstance().saveListCard(new ListCard(title.getText().toString()));
+        Storage.getInstance().saveListCard(new ListCard(ListCardTitle.getText().toString()));
     }
 
 }

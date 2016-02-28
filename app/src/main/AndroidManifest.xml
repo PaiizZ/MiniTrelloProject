@@ -21,7 +21,8 @@
         <activity
             android:name=".activities.CreateMenu"
             android:theme="@style/AppTheme.CustomTheme" />
-        <activity android:name=".activities.ListCardActivity"></activity>
+        <activity android:name=".activities.ListCardActivity" />
+        <activity android:name=".activities.CardActivity"></activity>
     </application>
 
 </manifest>
