@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     private void initComponent(){
         listcards = new ArrayList<ListCard>();
         listCardAdapter = new ListCardAdapter(this, R.layout.note_cell,listcards);
-        listcards.add(new ListCard("a"));
         listcardListView = (ListView) findViewById(R.id.listcard_list_view);
         listcardListView.setAdapter(listCardAdapter);
 
@@ -84,13 +83,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-
-        //listcards.clear();
+    protected void onPostResume() {
+        super.onPostResume();
+        //Storage.getInstance().saveListCard(new ListCard("ib"));
         for(ListCard lcard: Storage.getInstance().loadListCard()){
             listcards.add(lcard);
         }
+
         listCardAdapter.notifyDataSetChanged();
     }
 }

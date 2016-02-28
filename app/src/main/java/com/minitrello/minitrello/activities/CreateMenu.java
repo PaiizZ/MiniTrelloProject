@@ -42,7 +42,6 @@ public class CreateMenu extends Activity{
             @Override
             public void onClick(View v) {
                 saveNewListCard();
-                
                 finish();
             }
         });
