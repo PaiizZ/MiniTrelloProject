@@ -35,7 +35,6 @@ public class ListCardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_card);
         listCard = (ListCard)getIntent().getSerializableExtra("listcard");
-        Log.i("hello", listCard.getTitle());
         initComponent();
     }
 
@@ -59,9 +58,11 @@ public class ListCardActivity extends AppCompatActivity {
         createCardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveNewCard();
-                Log.i("hello", listCard.loadCards().size()+"");
-                onPostResume();
+                if(!cardTitle.getText().toString().equals("")) {
+                    saveNewCard();
+                    onPostResume();
+                }
+                cardTitle.setText("");
             }
         });
 
@@ -73,15 +74,12 @@ public class ListCardActivity extends AppCompatActivity {
         for(Card card: listCard.loadCards()){
             cards.add(card);
         }
-
         cardAdapter.notifyDataSetChanged();
     }
 
     private void  saveNewCard(){
         Storage.getInstance().saveCard(listCard, new Card(cardTitle.getText().toString()));
         listCard.saveCard(new Card(cardTitle.getText().toString()));
-        Log.i("storage", Storage.getInstance().loadListCard().size() + "");
-
     }
 
     @Override

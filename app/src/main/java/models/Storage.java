@@ -29,18 +29,11 @@ public class Storage {
 
     public void saveCard(ListCard listCard,Card card){
         for(int i=0;i< savedListCards.size();i++) {
-            if (savedListCards.get(i).getTitle().equals(listCard.getTitle())) {
+            if (savedListCards.get(i).equals(listCard)) {
                 savedListCards.get(i).saveCard(card);
                 break;
             }
         }
-    }
-
-    public ListCard loadCard(ListCard listCard){
-        for(ListCard lc : savedListCards){
-            if(lc.equals(listCard))return lc;
-        }
-        return null;
     }
 
     public List<ListCard> loadListCard(){
