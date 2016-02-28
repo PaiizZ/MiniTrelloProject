@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="#f00404">
+    android:background="#3cb9ee"
+    android:theme="@style/Widget.AppCompat.Light.ListPopupWindow">
 
     <EditText
         android:id="@+id/listcard_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="123dp"
         android:hint="Input Title name"
-        android:textSize="@android:dimen/app_icon_size" />
+
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:id="@+id/confirm_btn"

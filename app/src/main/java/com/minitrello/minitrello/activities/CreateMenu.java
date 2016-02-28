@@ -35,7 +35,7 @@ public class CreateMenu extends Activity{
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         int width = dm.widthPixels;
         int height = dm.heightPixels;
-        getWindow().setLayout((int)(width*.8),(int)(height*.6));
+        getWindow().setLayout((int)(width*.8),(int)(height*.2));
 
         confirmBtn = (Button)findViewById(R.id.confirm_btn);
         confirmBtn.setOnClickListener(new View.OnClickListener() {
