@@ -3,13 +3,12 @@ package com.minitrello.minitrello.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.minitrello.minitrello.R;
@@ -17,7 +16,6 @@ import com.minitrello.minitrello.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import models.Card;
 import models.ListCard;
 import models.Storage;
 import views.ListCardAdapter;
@@ -37,9 +35,19 @@ public class MainActivity extends AppCompatActivity {
 
     private void initComponent(){
         listcards = new ArrayList<ListCard>();
-        listCardAdapter = new ListCardAdapter(this, R.layout.note_cell,listcards);
+        listCardAdapter = new ListCardAdapter(this, R.layout.listcard_cell,listcards);
         listcardListView = (ListView) findViewById(R.id.listcard_list_view);
         listcardListView.setAdapter(listCardAdapter);
+        listcardListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this, ListCardActivity.class);
+                intent.putExtra("listcard",listcards.get(position));
+                startActivity(intent);
+            }
+        });
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -57,7 +65,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadListCard(){
+        listcards.clear();
+        for(ListCard lcard: Storage.getInstance().loadListCard()){
+            listcards.add(lcard);
+        }
 
+        listCardAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -85,11 +98,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        //Storage.getInstance().saveListCard(new ListCard("ib"));
-        for(ListCard lcard: Storage.getInstance().loadListCard()){
-            listcards.add(lcard);
-        }
-
-        listCardAdapter.notifyDataSetChanged();
+        loadListCard();
     }
 }

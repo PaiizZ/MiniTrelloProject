@@ -27,9 +27,9 @@ public class ListCardAdapter extends ArrayAdapter<ListCard> {
         View v = convertView;
         if(v == null) {
             LayoutInflater vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.note_cell, null);
+            v = vi.inflate(R.layout.listcard_cell, null);
         }
-        TextView card = (TextView)v.findViewById(R.id.card);
+        TextView card = (TextView)v.findViewById(R.id.listcard);
 
         ListCard listCard = getItem(position);
         card.setText(listCard.getTitle());
