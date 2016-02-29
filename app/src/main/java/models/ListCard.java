@@ -30,6 +30,13 @@ public class ListCard implements Serializable {
         cards.add(card);
     }
 
+    public Card loadCard(Card c){
+        for(int i=0;i<cards.size();i++){
+            if(c.equals(cards.get(i))) return cards.get(i);
+        }
+        return null;
+    }
+
     @Override
     public boolean equals(Object o) {
         ListCard other = (ListCard) o;

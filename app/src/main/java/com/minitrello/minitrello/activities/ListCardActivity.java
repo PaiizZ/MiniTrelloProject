@@ -49,6 +49,7 @@ public class ListCardActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(ListCardActivity.this, CardActivity.class);
                 intent.putExtra("card", cards.get(position));
+                intent.putExtra("listcards",Storage.getInstance().getListCard(listCard));
                 startActivity(intent);
             }
         });
