@@ -12,12 +12,20 @@
     tools:context=".activities.MainActivity"
     tools:showIn="@layout/activity_main">
 
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/listcard_Recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/bar_layout">
+
+    </android.support.v7.widget.RecyclerView>
+    <!--
     <ListView
         android:id="@+id/listcard_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </ListView>
+    </ListView>-->
 
 
 </RelativeLayout>

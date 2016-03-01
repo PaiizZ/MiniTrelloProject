@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
@@ -22,7 +24,7 @@ import views.ListCardAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ListView listcardListView;
+    private RecyclerView listcardListView;
     private List<ListCard> listcards;
     private ListCardAdapter listCardAdapter;
 
@@ -35,9 +37,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void initComponent(){
         listcards = new ArrayList<ListCard>();
-        listCardAdapter = new ListCardAdapter(this, R.layout.listcard_cell,listcards);
-        listcardListView = (ListView) findViewById(R.id.listcard_list_view);
+        listCardAdapter = new ListCardAdapter(listcards);
+        listcardListView = (RecyclerView) findViewById(R.id.listcard_Recycler);
+        listcardListView.setLayoutManager(new LinearLayoutManager(this));
         listcardListView.setAdapter(listCardAdapter);
+
+        
+        /*
         listcardListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 
             @Override
@@ -47,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        */
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

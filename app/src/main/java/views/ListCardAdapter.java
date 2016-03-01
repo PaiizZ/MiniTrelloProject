@@ -1,6 +1,7 @@
 package views;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import com.minitrello.minitrello.R;
 
+import java.util.Arrays;
 import java.util.List;
 
 import models.ListCard;
@@ -16,24 +18,28 @@ import models.ListCard;
 /**
  * Created by พศิน on 28/2/2559.
  */
-public class ListCardAdapter extends ArrayAdapter<ListCard> {
+public class ListCardAdapter extends RecyclerView.Adapter<ListcardViewHolder> {
 
-    public ListCardAdapter(Context context, int resource, List<ListCard> objects) {
-        super(context, resource, objects);
+    private List<ListCard> listCards;
+
+    public ListCardAdapter(List<ListCard> objects) {
+        listCards = objects;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View v = convertView;
-        if(v == null) {
-            LayoutInflater vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.listcard_cell, null);
-        }
-        TextView card = (TextView)v.findViewById(R.id.listcard);
+    public ListcardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        final LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        final View v = layoutInflater.inflate(R.layout.listcard_cell, parent, false);
+        return new ListcardViewHolder(v);
+    }
 
-        ListCard listCard = getItem(position);
-        card.setText(listCard.getTitle());
+    @Override
+    public void onBindViewHolder(ListcardViewHolder holder, int position) {
+        holder.listcardview.setText(listCards.get(position).getTitle());
+    }
 
-        return v;
+    @Override
+    public int getItemCount() {
+        return listCards.size();
     }
 }
