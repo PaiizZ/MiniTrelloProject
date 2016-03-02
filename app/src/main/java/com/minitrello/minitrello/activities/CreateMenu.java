@@ -41,7 +41,9 @@ public class CreateMenu extends Activity{
         confirmBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveNewListCard();
+                if(!ListCardTitle.getText().toString().equals("")) {
+                    saveNewListCard();
+                }
                 finish();
             }
         });

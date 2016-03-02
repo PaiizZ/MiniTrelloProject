@@ -9,11 +9,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.minitrello.minitrello.activities.ListCardActivity">
 
-    <ListView
-        android:id="@+id/card_list_view"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/card_Recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/card_title"></ListView>
+        android:layout_above="@+id/card_title">
+
+    </android.support.v7.widget.RecyclerView>
 
     <Button
         android:layout_width="wrap_content"
@@ -21,8 +23,7 @@
         android:text="Create Card"
         android:id="@+id/create_card_btn"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="49dp" />
+        android:layout_centerHorizontal="true" />
 
     <EditText
         android:layout_width="wrap_content"

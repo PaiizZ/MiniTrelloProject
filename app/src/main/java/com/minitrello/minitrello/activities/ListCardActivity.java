@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.preference.TwoStatePreference;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,13 +22,14 @@ import models.Card;
 import models.ListCard;
 import models.Storage;
 import views.CardAdapter;
+import views.RecyclerItemClickListener;
 
 public class ListCardActivity extends AppCompatActivity {
 
     private Button createCardBtn;
     private TextView cardTitle;
     private ListCard listCard;
-    private ListView cardListView;
+    private RecyclerView cardListRecyclerView;
     private List<Card> cards;
     private CardAdapter cardAdapter;
 
@@ -40,19 +43,19 @@ public class ListCardActivity extends AppCompatActivity {
 
     private void initComponent(){
         cards = new ArrayList<Card>();
-        cardAdapter = new CardAdapter(this, R.layout.card_cell,cards);
-        cardListView = (ListView) findViewById(R.id.card_list_view);
-        cardListView.setAdapter(cardAdapter);
-        cardListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
+        cardAdapter = new CardAdapter(cards);
+        cardListRecyclerView = (RecyclerView) findViewById(R.id.card_Recycler);
+        cardListRecyclerView.setAdapter(cardAdapter);
+        cardListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        cardListRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(View view, int position) {
                 Intent intent = new Intent(ListCardActivity.this, CardActivity.class);
                 intent.putExtra("card", cards.get(position));
-                intent.putExtra("listcards",Storage.getInstance().getListCard(listCard));
+                intent.putExtra("listcards", Storage.getInstance().getListCard(listCard));
                 startActivity(intent);
             }
-        });
+        }));
 
         cardTitle = (TextView)findViewById(R.id.card_title);
         createCardBtn = (Button)findViewById(R.id.create_card_btn);

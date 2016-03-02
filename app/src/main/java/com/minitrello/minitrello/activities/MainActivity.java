@@ -21,10 +21,11 @@ import java.util.List;
 import models.ListCard;
 import models.Storage;
 import views.ListCardAdapter;
+import views.RecyclerItemClickListener;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView listcardListView;
+    private RecyclerView listcardRecyclerView;
     private List<ListCard> listcards;
     private ListCardAdapter listCardAdapter;
 
@@ -38,11 +39,17 @@ public class MainActivity extends AppCompatActivity {
     private void initComponent(){
         listcards = new ArrayList<ListCard>();
         listCardAdapter = new ListCardAdapter(listcards);
-        listcardListView = (RecyclerView) findViewById(R.id.listcard_Recycler);
-        listcardListView.setLayoutManager(new LinearLayoutManager(this));
-        listcardListView.setAdapter(listCardAdapter);
-
-        
+        listcardRecyclerView = (RecyclerView) findViewById(R.id.listcard_Recycler);
+        listcardRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        listcardRecyclerView.setAdapter(listCardAdapter);
+        listcardRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(MainActivity.this, ListCardActivity.class);
+                intent.putExtra("listcard",listcards.get(position));
+                startActivity(intent);
+            }
+        }));
         /*
         listcardListView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
 

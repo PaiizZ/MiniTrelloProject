@@ -1,6 +1,7 @@
 package views;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,23 +18,27 @@ import models.ListCard;
 /**
  * Created by พศิน on 28/2/2559.
  */
-public class CardAdapter extends ArrayAdapter<Card> {
-    public CardAdapter(Context context, int resource, List<Card> objects) {
-        super(context, resource, objects);
+public class CardAdapter extends RecyclerView.Adapter<CardViewHolder> {
+    private List<Card> cards;
+
+    public CardAdapter(List<Card> objects) {
+        cards = objects;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View v = convertView;
-        if(v == null) {
-            LayoutInflater vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.card_cell, null);
-        }
-        TextView cardView = (TextView)v.findViewById(R.id.card);
+    public CardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        final LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        final View v = layoutInflater.inflate(R.layout.card_cell, parent, false);
+        return new CardViewHolder(v);
+    }
 
-        Card card = getItem(position);
-        cardView.setText(card.getTitle());
+    @Override
+    public void onBindViewHolder(CardViewHolder holder, int position) {
+        holder.cardview.setText(cards.get(position).getTitle());
+    }
 
-        return v;
+    @Override
+    public int getItemCount() {
+        return cards.size();
     }
 }
