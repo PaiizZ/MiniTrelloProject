@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -27,21 +29,26 @@ import views.RecyclerItemClickListener;
 public class ListCardActivity extends AppCompatActivity {
 
     private Button createCardBtn;
+    private Button deleteListCardBtn;
+    private Button renameListCardBtn;
     private TextView cardTitle;
-    private ListCard listCard;
+    private TextView ListcardTitle;
     private RecyclerView cardListRecyclerView;
     private List<Card> cards;
     private CardAdapter cardAdapter;
+    private int listcard_index;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_card);
-        listCard = (ListCard)getIntent().getSerializableExtra("listcard");
+        listcard_index = (int)getIntent().getSerializableExtra("listcard_index");
         initComponent();
     }
 
     private void initComponent(){
+        ListcardTitle = (TextView)findViewById(R.id.listcard_title_head);
+        ListcardTitle.setText(Storage.getInstance().loadListCard().get(listcard_index).toString());
         cards = new ArrayList<Card>();
         cardAdapter = new CardAdapter(cards);
         cardListRecyclerView = (RecyclerView) findViewById(R.id.card_Recycler);
@@ -51,8 +58,8 @@ public class ListCardActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(ListCardActivity.this, CardActivity.class);
-                intent.putExtra("card", cards.get(position));
-                intent.putExtra("listcards", Storage.getInstance().getListCard(listCard));
+                intent.putExtra("card_index", position);
+                intent.putExtra("listcards_index", listcard_index);
                 startActivity(intent);
             }
         }));
@@ -62,7 +69,7 @@ public class ListCardActivity extends AppCompatActivity {
         createCardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!cardTitle.getText().toString().equals("")) {
+                if (!cardTitle.getText().toString().equals("")) {
                     saveNewCard();
                     onPostResume();
                 }
@@ -70,25 +77,70 @@ public class ListCardActivity extends AppCompatActivity {
             }
         });
 
+        deleteListCardBtn = (Button)findViewById(R.id.delete_listcard_btn);
+        deleteListCardBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteListCard();
+                finish();
+            }
+        });
 
+        renameListCardBtn = (Button)findViewById(R.id.rename_listcard_button);
+        renameListCardBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ListCardActivity.this, RenameListCardActivity.class);
+                intent.putExtra("listcard_index", listcard_index);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    private void deleteListCard(){
+        Storage.getInstance().loadListCard().remove(listcard_index);
     }
 
     private void loadCard(){
         cards.clear();
-        for(Card card: listCard.loadCards()){
+        for(Card card: Storage.getInstance().loadListCard().get(listcard_index).loadCards()){
             cards.add(card);
         }
         cardAdapter.notifyDataSetChanged();
     }
 
     private void  saveNewCard(){
-        Storage.getInstance().saveCard(listCard, new Card(cardTitle.getText().toString()));
-        listCard.saveCard(new Card(cardTitle.getText().toString()));
+        Storage.getInstance().loadListCard().get(listcard_index).saveCard(new Card(cardTitle.getText().toString()));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_settings) {
+            clear();
+            onPostResume();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void clear(){
+        Storage.getInstance().loadListCard().get(listcard_index).clearCard();
     }
 
     @Override
     protected void onPostResume() {
         super.onPostResume();
         loadCard();
+        ListcardTitle.setText(Storage.getInstance().loadListCard().get(listcard_index).toString());
     }
 }

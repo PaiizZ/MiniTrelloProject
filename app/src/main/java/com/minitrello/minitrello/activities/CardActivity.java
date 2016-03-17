@@ -1,5 +1,6 @@
 package com.minitrello.minitrello.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,17 +16,19 @@ import models.Storage;
 
 public class CardActivity extends AppCompatActivity {
 
-    Button saveDescription;
-    EditText descriptionEditText;
-    Card card;
-    ListCard listCard;
+    private Button saveDescription;
+    private Button deleteCardBtn;
+    private Button renameCardBtn;
+    private EditText descriptionEditText;
+    private int listcard_index;
+    private int card_index;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card);
-        card = (Card)getIntent().getSerializableExtra("card");
-        listCard = (ListCard)getIntent().getSerializableExtra("listcards");
+        card_index = (int)getIntent().getSerializableExtra("card_index");
+        listcard_index = (int)getIntent().getSerializableExtra("listcards_index");
         initComponent();
     }
 
@@ -38,20 +41,42 @@ public class CardActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 saveDescription();
-                descriptionEditText.setText(card.getDescription());
+                loadDescription();
             }
         });
+
+        deleteCardBtn = (Button) findViewById(R.id.delete_card_btn);
+        deleteCardBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteCard();
+                finish();
+            }
+        });
+
+        renameCardBtn = (Button)findViewById(R.id.rename_card_button);
+        renameCardBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CardActivity.this, RenameCardActivity.class);
+                intent.putExtra("card_index", card_index);
+                intent.putExtra("listcards_index", listcard_index);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    private void deleteCard(){
+        Storage.getInstance().loadListCard().get(listcard_index).deleteCard(card_index);
     }
 
     private void saveDescription(){
-        card.setDescription(descriptionEditText.getText().toString());
-        Storage.getInstance().getCard(Storage.getInstance().getListCard(listCard),card).setDescription(descriptionEditText.getText().toString());
+        Storage.getInstance().loadListCard().get(listcard_index).loadCards().get(card_index).setDescription(descriptionEditText.getText().toString());
     }
 
     private void loadDescription(){
-        descriptionEditText.setText(Storage.getInstance().getCard(Storage.getInstance().getListCard(listCard),card).getDescription());
+        descriptionEditText.setText(Storage.getInstance().loadListCard().get(listcard_index).loadCards().get(card_index).getDescription());
     }
-
-
 
 }

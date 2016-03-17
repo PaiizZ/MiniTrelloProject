@@ -18,6 +18,10 @@ public class ListCard implements Serializable {
         currentTime = System.currentTimeMillis();
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -30,13 +34,6 @@ public class ListCard implements Serializable {
         cards.add(card);
     }
 
-    public Card loadCard(Card c){
-        for(int i=0;i<cards.size();i++){
-            if(c.equals(cards.get(i))) return cards.get(i);
-        }
-        return null;
-    }
-
     @Override
     public boolean equals(Object o) {
         ListCard other = (ListCard) o;
@@ -46,5 +43,13 @@ public class ListCard implements Serializable {
     @Override
     public String toString() {
         return this.title;
+    }
+
+    public void deleteCard(int index){
+        cards.remove(index);
+    }
+
+    public void clearCard(){
+        cards.clear();
     }
 }
