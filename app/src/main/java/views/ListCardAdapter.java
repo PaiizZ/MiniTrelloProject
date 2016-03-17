@@ -16,7 +16,7 @@ import models.ListCard;
 /**
  * Created by พศิน on 28/2/2559.
  */
-public class ListCardAdapter extends RecyclerView.Adapter<ListCardViewHolder> {
+public class ListCardAdapter extends RecyclerView.Adapter<ListcardViewHolder> {
 
     private List<ListCard> listCards;
 
@@ -25,17 +25,17 @@ public class ListCardAdapter extends RecyclerView.Adapter<ListCardViewHolder> {
     }
 
     @Override
-    public ListCardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ListcardViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         final LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         final View v = layoutInflater.inflate(R.layout.listcard_cell, parent, false);
         Random rnd = new Random();
         int color = Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
         v.setBackgroundColor(color);
-        return new ListCardViewHolder(v);
+        return new ListcardViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(ListCardViewHolder holder, int position) {
+    public void onBindViewHolder(ListcardViewHolder holder, int position) {
         holder.listcardview.setText(listCards.get(position).getTitle());
     }
 

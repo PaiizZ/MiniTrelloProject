@@ -9,10 +9,10 @@ import com.minitrello.minitrello.R;
 /**
  * Created by พศิน on 1/3/2559.
  */
-public class ListCardViewHolder extends RecyclerView.ViewHolder{
+public class ListcardViewHolder extends RecyclerView.ViewHolder{
     TextView listcardview;
 
-    ListCardViewHolder(View itemView) {
+    ListcardViewHolder(View itemView) {
         super(itemView);
         listcardview = (TextView) itemView.findViewById(R.id.listcard);
     }
