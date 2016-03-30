@@ -1,5 +1,7 @@
 package com.minitrello.minitrello.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView listcardRecyclerView;
     private List<ListCard> listcards;
     private ListCardAdapter listCardAdapter;
+    private AlertDialog.Builder clearDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initComponent(){
+        clearDialog = new AlertDialog.Builder(this);
         listcards = new ArrayList<ListCard>();
         listCardAdapter = new ListCardAdapter(listcards);
         listcardRecyclerView = (RecyclerView) findViewById(R.id.listcard_Recycler);
@@ -65,6 +69,26 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    private void setClearDialog() {
+        clearDialog.setTitle("Confirm message");
+        clearDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                clear();
+                onPostResume();
+            }
+        });
+        clearDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        AlertDialog clear = clearDialog.create();
+        clear.show();
+
+    }
+
     private void loadListCard(){
         listcards.clear();
         for(ListCard lcard: Storage.getInstance().loadListCard()){
@@ -85,8 +109,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
-            clear();
-            onPostResume();
+            setClearDialog();
             return true;
         }
 

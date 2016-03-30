@@ -50,6 +50,10 @@ public class Card implements Serializable {
         return listComments;
     }
 
+    public void deleteComment(int position){
+        listComments.remove(position);
+    }
+
     @Override
     public String toString() {
         return this.title;

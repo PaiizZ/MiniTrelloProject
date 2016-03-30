@@ -1,5 +1,7 @@
 package com.minitrello.minitrello.activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.preference.TwoStatePreference;
 import android.support.v7.app.AppCompatActivity;
@@ -36,6 +38,8 @@ public class ListCardActivity extends AppCompatActivity {
     private RecyclerView cardListRecyclerView;
     private List<Card> cards;
     private CardAdapter cardAdapter;
+    private AlertDialog.Builder deleteDialog;
+    private AlertDialog.Builder clearDialog;
     private int listcard_index;
 
     @Override
@@ -47,6 +51,8 @@ public class ListCardActivity extends AppCompatActivity {
     }
 
     private void initComponent(){
+        deleteDialog = new AlertDialog.Builder(this);
+        clearDialog = new AlertDialog.Builder(this);
         ListcardTitle = (TextView)findViewById(R.id.listcard_title_head);
         ListcardTitle.setText(Storage.getInstance().loadListCard().get(listcard_index).toString());
         cards = new ArrayList<Card>();
@@ -81,8 +87,7 @@ public class ListCardActivity extends AppCompatActivity {
         deleteListCardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteListCard();
-                finish();
+                setDelteDialog();
             }
         });
 
@@ -95,6 +100,46 @@ public class ListCardActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+    }
+
+    private void setDelteDialog() {
+        deleteDialog.setTitle("Confirm message");
+        deleteDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteListCard();
+                finish();
+            }
+        });
+        deleteDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        AlertDialog delete = deleteDialog.create();
+        delete.show();
+
+    }
+
+    private void setClearDialog() {
+        clearDialog.setTitle("Confirm message");
+        clearDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                clear();
+                onPostResume();
+            }
+        });
+        clearDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        AlertDialog clear = clearDialog.create();
+        clear.show();
 
     }
 
@@ -125,8 +170,7 @@ public class ListCardActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_settings) {
-            clear();
-            onPostResume();
+            setClearDialog();
             return true;
         }
 
