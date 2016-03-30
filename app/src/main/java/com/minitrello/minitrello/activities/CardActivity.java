@@ -36,6 +36,7 @@ public class CardActivity extends AppCompatActivity {
     private Button deleteCardBtn;
     private Button renameCardBtn;
     private Button addCommentBtn;
+    private Button moveCardBtn;
     private ListView comment_listview;
     private EditText descriptionEditText;
     private EditText commentEditText;
@@ -44,6 +45,7 @@ public class CardActivity extends AppCompatActivity {
     private int listcard_index;
     private AlertDialog.Builder commentDialog;
     private AlertDialog.Builder deleteDialog;
+    private AlertDialog.Builder movecardDialog;
     private int card_index;
 
     @Override
@@ -76,7 +78,7 @@ public class CardActivity extends AppCompatActivity {
 
     }
 
-    private void setDelteDialog() {
+    private void setDeleteDialog() {
         deleteDialog.setTitle("Confirm message");
         deleteDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
@@ -96,10 +98,33 @@ public class CardActivity extends AppCompatActivity {
 
     }
 
+    private void setMoveCardDialog(int position) {
+        final int pos = position;
+        movecardDialog.setTitle("Move this card to "+Storage.getInstance().loadListCard().get(pos).getTitle());
+        movecardDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Storage.getInstance().loadListCard().get(pos).saveCard(Storage.getInstance().loadListCard().get(listcard_index).loadCards().get(card_index));
+                deleteCard();
+                finish();
+            }
+        });
+        movecardDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        AlertDialog movecard = movecardDialog.create();
+        movecard.show();
+
+    }
+
 
     private void initComponent(){
         commentDialog = new AlertDialog.Builder(this);
         deleteDialog = new AlertDialog.Builder(this);
+        movecardDialog = new AlertDialog.Builder(this);
         saveDescription = (Button)findViewById(R.id.save_description_btn);
         descriptionEditText = (EditText) findViewById(R.id.card_description_editText);
         loadDescription();
@@ -117,7 +142,7 @@ public class CardActivity extends AppCompatActivity {
         deleteCardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               setDelteDialog();
+               setDeleteDialog();
             }
         });
 
@@ -154,12 +179,12 @@ public class CardActivity extends AppCompatActivity {
             public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
                 final int checkedCount = comment_listview.getCheckedItemCount();
                 mode.setTitle(checkedCount + " Selected");
-                    commentAdapter.toggleSelection(position);
+                commentAdapter.toggleSelection(position);
             }
 
             @Override
             public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-                mode.getMenuInflater().inflate(R.menu.main,menu);
+                mode.getMenuInflater().inflate(R.menu.main, menu);
                 return true;
             }
 
@@ -170,22 +195,22 @@ public class CardActivity extends AppCompatActivity {
 
             @Override
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-               switch(item.getItemId()){
-                   case R.id.delete:
-                       SparseBooleanArray selected = commentAdapter.getSelectId();
-                       for(int i=(selected.size()-1); i>=0 ;i--) {
-                           if(selected.valueAt(i)) {
-                               Comment selecteditem = commentAdapter.getItem(selected.keyAt(i));
-                               Storage.getInstance().loadListCard().get(listcard_index).loadCards().get(card_index).deleteComment(selected.keyAt(i));
-                               commentAdapter.remove(selecteditem);
-                           }
-                       }
-                       mode.finish();
-                       return true;
-                   default:
-                       return false;
+                switch (item.getItemId()) {
+                    case R.id.delete:
+                        SparseBooleanArray selected = commentAdapter.getSelectId();
+                        for (int i = (selected.size() - 1); i >= 0; i--) {
+                            if (selected.valueAt(i)) {
+                                Comment selecteditem = commentAdapter.getItem(selected.keyAt(i));
+                                Storage.getInstance().loadListCard().get(listcard_index).loadCards().get(card_index).deleteComment(selected.keyAt(i));
+                                commentAdapter.remove(selecteditem);
+                            }
+                        }
+                        mode.finish();
+                        return true;
+                    default:
+                        return false;
 
-               }
+                }
             }
 
             @Override
@@ -194,15 +219,32 @@ public class CardActivity extends AppCompatActivity {
             }
         });
 
-        /*
-        comment_listview.setLongClickable(true);
-        comment_listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        moveCardBtn = (Button)findViewById(R.id.movecard_btn);
+        moveCardBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                return false;
+            public void onClick(View v) {
+                selectOption();
             }
-        });*/
+        });
+
     }
+
+    private void selectOption(){
+        final CharSequence[] options = new CharSequence[Storage.getInstance().loadListCard().size()];
+        for(int i=0;i<options.length;i++){
+            options[i] = Storage.getInstance().loadListCard().get(i).getTitle();
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(CardActivity.this);
+        builder.setTitle("Move to another ListCard");
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                setMoveCardDialog(which);
+            }
+        });
+        builder.show();
+    }
+
 
     private void loadComment(){
         comments.clear();
