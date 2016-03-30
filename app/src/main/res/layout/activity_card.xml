@@ -9,15 +9,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.minitrello.minitrello.activities.CardActivity">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Add Descriptions"
-        android:id="@+id/card_description_editText"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,4 +32,76 @@
         android:id="@+id/rename_card_button"
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="300px"
+        android:id="@+id/frameLayout"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/description_text">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Add Descriptions"
+            android:id="@+id/card_description_editText"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="left|top" />
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Description"
+        android:id="@+id/description_text"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="300px"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/comment_editText"
+        android:layout_below="@+id/frameLayout"
+        android:id="@+id/linearLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Comments"
+            android:id="@+id/textView"
+            android:layout_above="@+id/linearLayout"
+            android:layout_alignParentStart="true" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/comment_listView" />
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/comment_editText"
+        android:hint="Add Comment"
+        android:layout_above="@+id/save_description_btn"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/add_comment_btn"
+        android:layout_alignTop="@+id/add_comment_btn" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ADD"
+        android:id="@+id/add_comment_btn"
+        android:layout_above="@+id/save_description_btn"
+        android:layout_alignParentEnd="true"
+        android:layout_alignStart="@+id/delete_card_btn" />
+
 </RelativeLayout>
