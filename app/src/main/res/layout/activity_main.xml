@@ -24,7 +24,11 @@
 
     </android.support.design.widget.AppBarLayout>
 
-
+    <ImageView
+        android:src="@drawable/e1030590011"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <include layout="@layout/content_main" />
 
